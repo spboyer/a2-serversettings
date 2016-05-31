@@ -14,14 +14,12 @@ app.use(express.static(staticRoot));
 app.get('/settings', function (req, res) {
     // create the return object
     var settings = {};
-    settings.app = {};
 
-    //set the api settings
-    settings.api = config.api;
 
-    // set the app title and environment name
-    settings.app.title = config.app.title;
-    settings.app.environment = config.app.environment;
+    // set the properties
+    settings.title = config.app.title;
+    settings.environment = config.app.environment;
+    settings.webApiUrl = config.api.base_url;
 
     // return the settings
     res.send(settings);
