@@ -24,12 +24,76 @@ Related Posts:
 ##The Server
 *This portion builds on the [Giving your CLI a Server](http://tattoocoder.com/angular2-giving-your-cli-server/) post*
 
+First, the environment based config or settings files and code need to added. So a `/config` folder is added with the following files.
+
+```bash
+config
+├── development.js
+├── index.js
+└── production.js
+```
+
+The `index.js` file contains simple code to load the environment specific file based on **NODE_ENV**.  A change could be made to trigger off of any other variable depending on your build process or need to support
+other environments (APP_ENV for example).
+```javascript
+var config
+  , config_file = './' + (process.env.NODE_ENV ? process.env.NODE_ENV : 'development') + '.js';
+
+try {
+  config = require(config_file);
+} catch (err) {
+  if (err.code && err.code === 'MODULE_NOT_FOUND') {
+    console.error('No config file matching NODE_ENV=' + process.env.NODE_ENV
+      + '. Requires "' + __dirname + '/' + process.env.NODE_ENV + '.js"');
+    process.exit(1);
+  } else {
+    throw err;
+  }
+}
+module.exports = config;
+
+```
+Next, the `production.js` and `development.js` file contain the settings specific to the environments and our needs.
+```javascript
+exports.app = app = {
+  title: 'a2-serversettings',
+  port: 80,
+  environment: 'production',
+  start: 'index.html'
+}
+
+exports.api = {
+  base_url: 'http://api.webserver.com/'
+}
+```
+
+A variation to the `development.js` file such as `base_url: 'http://localhost:5001/` would be an example.
+
+Next, implementing the `/settings` endpoint in the `server.js` file which will be used as the GET method by the angular app for retrieving this info.
+
+```javascript
+//import the config
+config = require('./config');
+
+// GET settings route
+app.get('/settings', function (req, res) {
+    // create the return object
+    var settings = {};
 
 
+    // set the properties
+    settings.title = config.app.title;
+    settings.environment = config.app.environment;
+    settings.webApiUrl = config.api.base_url;
+
+    // return the settings
+    res.send(settings);
+});
+```
 
 
 ```
-#install window.fetch the polyfill
+#install the window.fetch polyfill
 $ npm install whatwg-fetch --save
 
 #install the typescript typings from defintelytyped

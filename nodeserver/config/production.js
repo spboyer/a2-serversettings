@@ -1,6 +1,6 @@
 exports.app = app = {
   title: 'a2-serversettings',
-  port: 80,
+  port: 3000,
   environment: 'production',
   start: 'index.html'
 }

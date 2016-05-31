@@ -5,6 +5,6 @@ export interface ISettings {
 }
 
 
-export class AppSettings {
+export class appSettings {
     public static settings: ISettings;
 }

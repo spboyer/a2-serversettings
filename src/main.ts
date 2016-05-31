@@ -1,7 +1,6 @@
 import { bootstrap } from '@angular/platform-browser-dynamic';
 import { enableProdMode } from '@angular/core';
-import { MyappAppComponent, environment } from './app/';
-import { AppSettings, ISettings } from './app/shared/';
+import { MyappAppComponent, environment, appSettings, ISettings } from './app/';
 
 if (environment.production) {
   enableProdMode();
@@ -9,8 +8,8 @@ if (environment.production) {
 
 fetch('/settings', { method: 'get' }).then((response) => {
   response.json().then((settings: ISettings) => {
-    AppSettings.settings = settings;
-    if (AppSettings.settings.environment == 'production') {
+    appSettings.settings = settings;
+    if (appSettings.settings.environment == 'production') {
       enableProdMode();
     };
     bootstrap(MyappAppComponent);

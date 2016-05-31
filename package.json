@@ -12,8 +12,8 @@
     "e2e": "protractor",
     "build:nodeserver": "ng build && cp -R nodeserver\/* dist",
     "build:nodeserver-prod": "ng build -prod && cp -R nodeserver\/* dist",
-    "serve-build" : "npm run build:nodeserver && cd dist && npm i && node server.js",
-    "serve-build-prod": "npm run build:nodeserver-prod && cd dist && npm i && node server.js"
+    "serve-build" : "rm -rf dist && npm run build:nodeserver && cd dist && npm i && NODE_ENV=development node server.js",
+    "serve-build-prod": "rm -rf dist && npm run build:nodeserver-prod && cd dist && npm i && NODE_ENV=production node server.js"
   },
   "private": true,
   "dependencies": {
